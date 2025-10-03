@@ -1,30 +1,42 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';  // <-- IMPORTAR FORMSMODULE
+import { ITask } from '../../core/interfaces';
 
 @Component({
   selector: 'app-data-binding-page',
   standalone: true,
-  imports: [CommonModule, FormsModule], // <-- AGREGAR FormsModule AQUÍ
+  imports: [CommonModule],
   templateUrl: './data-binding-page.component.html',
-  styleUrl: './data-binding-page.component.css',
 })
 export class DataBindingPageComponent {
-  taskInput: string = '';
-  tasks: string[] = [];
 
-  saveTask() {
-    if (this.taskInput.trim() !== '') {
-      this.tasks.push(this.taskInput.trim());
-      this.taskInput = ''; // limpia el input después de guardar
+  title = 'Data Binding Page';
+  text_field = signal('');
+  messageError = signal('');
+  tasks = signal<ITask[]>([]);
+
+  // Reset input
+  resetTask() {
+    this.text_field.set('');
+    this.messageError.set('');
+  }
+
+  // Delete task
+  deleteTask(id: number) {
+    this.tasks.update(tasks => tasks.filter(task => task.id !== id));
+  }
+
+  // Add task
+  addTask() {
+    if (!this.text_field().trim()) {
+      this.messageError.set('The task name is required');
+      return;
     }
-  }
-
-  cancelTask() {
-    this.taskInput = ''; // limpia el input sin guardar
-  }
-
-  deleteTask(index: number) {
-    this.tasks.splice(index, 1); // elimina la tarea seleccionada
+    const newTask: ITask = {
+      id: this.tasks().length + 1,
+      name: this.text_field()
+    };
+    this.tasks.update(tasks => [...tasks, newTask]);
+    this.resetTask();
   }
 }
