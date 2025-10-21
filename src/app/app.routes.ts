@@ -2,9 +2,10 @@ import { Routes } from '@angular/router';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { CounterPageComponent } from './pages/counter-page/counter-page.component';
 import { StructuralDirectivesComponent } from './pages/structural-directives/structural-directives.component';
-import { AttributeDirectivesPageComponent } from './pages/attribute-directives-page/attribute-directives-page.component'; 
+import { AttributeDirectivesPageComponent } from './pages/attribute-directives-page/attribute-directives-page.component';
 import { DataBindingPageComponent } from './pages/data-binding-page/data-binding-page.component';
 import { ServicePageComponent } from './pages/service-page/service-page.component';
+import { PipesPageComponent } from './pages/pipes-page/pipes-page.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomePageComponent },
@@ -13,5 +14,8 @@ export const routes: Routes = [
   { path: 'attribute-directives', component: AttributeDirectivesPageComponent },
   { path: 'data-binding', component: DataBindingPageComponent },
   { path: 'service', component: ServicePageComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'pipes', component: PipesPageComponent },
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
+
